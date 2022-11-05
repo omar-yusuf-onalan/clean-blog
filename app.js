@@ -12,10 +12,20 @@ const pageController = require('./controllers/pageController');
 const app = express();
 
 //connect DB
-mongoose.connect('mongodb://localhost/cleanblog-test-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose
+    .connect(
+        'mongodb+srv://omaryusufonalan:6ZcBz03QzgNFPChF@clean-blog-app.aggknt9.mongodb.net/?retryWrites=true&w=majority',
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
+    .then(() => {
+        console.log('DB CONNECTED');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 //TEMPLATE ENGINE
 app.set('view engine', 'ejs');
@@ -42,7 +52,7 @@ app.get('/about', pageController.getAboutPage);
 app.get('/add_post', pageController.getAddPage);
 app.get('/posts/edit/:id', pageController.getEditPage);
 
-const port = 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     console.log(`Server initialized in port ${port}...`);
